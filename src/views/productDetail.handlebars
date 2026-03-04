@@ -1,0 +1,45 @@
+<h1>Detalle de producto</h1>
+
+<p><strong>{{product.title}}</strong></p>
+<p>{{product.description}}</p>
+<p>Precio: ${{product.price}}</p>
+<p>Categoría: {{product.category}}</p>
+<p>ID: {{product._id}}</p>
+
+<hr />
+
+<h2>Agregar al carrito</h2>
+
+<form id="addToCartForm">
+  <label>Cart ID (cid):</label>
+  <input id="cartId" name="cartId" value="{{cartId}}" placeholder="Pegá el cid acá" required />
+  <button type="submit">Agregar 1 unidad</button>
+</form>
+
+<p id="result"></p>
+
+<script>
+  const form = document.getElementById("addToCartForm");
+  const result = document.getElementById("result");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const cartId = document.getElementById("cartId").value.trim();
+    const pid = "{{product._id}}";
+
+    try {
+      const resp = await fetch(`/api/carts/${cartId}/products/${pid}`, { method: "POST" });
+      const data = await resp.json();
+
+      if (!resp.ok) {
+        result.innerText = "Error: " + (data.error || resp.statusText);
+        return;
+      }
+
+      result.innerText = "Producto agregado al carrito.";
+    } catch (err) {
+      result.innerText = "Error de red.";
+    }
+  });
+</script>

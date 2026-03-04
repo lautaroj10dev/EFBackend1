@@ -1,0 +1,12 @@
+<h1>Home - Productos</h1>
+
+<ul>
+  {{#each products}}
+    <li>
+      <strong>{{this.title}}</strong>
+      | id: {{this._id}}
+      | price: {{this.price}}
+      | category: {{this.category}}
+    </li>
+  {{/each}}
+</ul>
